@@ -21,16 +21,6 @@ data "aws_iam_policy_document" "tracing" {
       actions = [
         "logs:PutLogEvents",
         "logs:PutResourcePolicy",
-      ]
-      #tfsec:ignore:aws-iam-no-policy-wildcards
-      resources = ["${aws_cloudwatch_log_group.this[0].arn}:*"]
-    }
-  }
-  dynamic "statement" {
-    for_each = var.logging_configuration != null ? [true] : []
-    content {
-      effect = "Allow"
-      actions = [
         "logs:GetLogDelivery",
         "logs:UpdateLogDelivery",
         "logs:DeleteLogDelivery",
