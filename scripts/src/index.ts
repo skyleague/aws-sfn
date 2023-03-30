@@ -1,5 +1,5 @@
-import { StateMachineModuleInput } from './input.type'
-import { listLambdaArns } from './list-lambda-arns'
+import { StateMachineModuleInput } from './input.type.js'
+import { listLambdaArns } from './list-lambda-arns.js'
 
 import type { StateMachine } from '@skyleague/therefore-sfn'
 
@@ -15,14 +15,14 @@ async function readInput<T>(schema: {
     if (schema.is(input)) {
         return input
     } else {
-        throw new Error(schema.validate.errors?.[0].message ?? 'Invalid input')
+        throw new Error(schema.validate.errors?.[0]?.message ?? 'Invalid input')
     }
 }
 
 async function main() {
     const input = await readInput(StateMachineModuleInput)
     if (!StateMachineModuleInput.is(input)) {
-        throw new Error(StateMachineModuleInput.validate.errors?.[0].message ?? 'Invalid input')
+        throw new Error(StateMachineModuleInput.validate.errors?.[0]?.message ?? 'Invalid input')
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

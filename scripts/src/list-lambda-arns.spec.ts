@@ -1,4 +1,4 @@
-import { listLambdaArns } from './list-lambda-arns'
+import { listLambdaArns } from './list-lambda-arns.js'
 
 import type { StateMachine } from '@skyleague/therefore-sfn'
 import { templateLambdaArn } from '@skyleague/therefore-sfn'
