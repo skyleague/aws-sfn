@@ -1,4 +1,4 @@
-import { LambdaIntegrationParameters } from './input.type'
+import { LambdaIntegrationParameters } from './input.type.js'
 
 import type { StateMachine } from '@skyleague/therefore-sfn'
 import { templateLambdaArn } from '@skyleague/therefore-sfn'

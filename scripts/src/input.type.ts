@@ -5,6 +5,24 @@
 /* eslint-disable */
 import type { ValidateFunction } from 'ajv'
 
+export interface LambdaIntegrationParameters {
+    FunctionName: string
+    Payload: unknown
+    [k: string]: unknown
+}
+
+export const LambdaIntegrationParameters = {
+    validate: (await import('./schemas/lambda-integration-parameters.schema.js'))
+        .validate10 as unknown as ValidateFunction<LambdaIntegrationParameters>,
+    get schema() {
+        return LambdaIntegrationParameters.validate.schema
+    },
+    get errors() {
+        return LambdaIntegrationParameters.validate.errors ?? undefined
+    },
+    is: (o: unknown): o is LambdaIntegrationParameters => LambdaIntegrationParameters.validate(o) === true,
+} as const
+
 export interface StateMachineModuleInput {
     file: string
     export: string
@@ -13,23 +31,13 @@ export interface StateMachineModuleInput {
 }
 
 export const StateMachineModuleInput = {
-    validate: require('./schemas/state-machine-module-input.schema.js') as ValidateFunction<StateMachineModuleInput>,
+    validate: (await import('./schemas/state-machine-module-input.schema.js'))
+        .validate10 as unknown as ValidateFunction<StateMachineModuleInput>,
     get schema() {
         return StateMachineModuleInput.validate.schema
     },
-    is: (o: unknown): o is StateMachineModuleInput => StateMachineModuleInput.validate(o) === true,
-} as const
-
-export interface LambdaIntegrationParameters {
-    FunctionName: string
-    Payload: unknown
-    [k: string]: unknown
-}
-
-export const LambdaIntegrationParameters = {
-    validate: require('./schemas/lambda-integration-parameters.schema.js') as ValidateFunction<LambdaIntegrationParameters>,
-    get schema() {
-        return LambdaIntegrationParameters.validate.schema
+    get errors() {
+        return StateMachineModuleInput.validate.errors ?? undefined
     },
-    is: (o: unknown): o is LambdaIntegrationParameters => LambdaIntegrationParameters.validate(o) === true,
+    is: (o: unknown): o is StateMachineModuleInput => StateMachineModuleInput.validate(o) === true,
 } as const
