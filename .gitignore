@@ -1,8 +1,7 @@
 .*
+__pycache__
 node_modules
 yalc.lock
-src/**/*.d.ts
-/index.d.ts
 
 !.github
 !.vscode
@@ -11,3 +10,5 @@ src/**/*.d.ts
 !.gitignore
 !.gitkeep
 !.eslintrc.*
+!.prettierignore
+!.eslintignore
