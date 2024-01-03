@@ -2,8 +2,9 @@ import { listLambdaArns } from './list-lambda-arns.js'
 
 import type { StateMachine } from '@skyleague/therefore-sfn'
 import { templateLambdaArn } from '@skyleague/therefore-sfn'
+import { it, expect } from 'vitest'
 
-test('list-nested-lambda-arns', () => {
+it('list-nested-lambda-arns', () => {
     const definition: StateMachine = {
         StartAt: 'Entry',
         States: {
