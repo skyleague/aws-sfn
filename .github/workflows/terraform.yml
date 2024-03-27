@@ -1,0 +1,30 @@
+name: terraform
+on: push
+
+jobs:
+  tfsec:
+    uses: skyleague/node-standards/.github/workflows/reusable-tfsec.yml@main
+    with:
+      terraform-version: "1.7.1"
+      working-directory: "./"
+      # tfsec-var-files: '["test/default.tfvars", "test/a.tfvars"]'
+
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: setup terraform and cache
+        uses: skyleague/node-standards/.github/actions/setup-terraform@main
+        with:
+          terraform-version: "1.7.1"
+          working-directory: "./test"
+          github-app-id: ${{ secrets.GITHUB_APP_ID }}
+          github-app-pem: ${{ secrets.GITHUB_APP_PEM }}
+      - name: terraform init
+        run: terraform init
+        working-directory: "./test"
+      - name: terraform test
+        run: terraform test
+        working-directory: "./test"

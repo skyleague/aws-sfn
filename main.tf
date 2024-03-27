@@ -15,12 +15,14 @@ data "external" "definition" {
   ])
 }
 locals {
-  raw_definition = endswith(var.definition.file, ".json") ? jsondecode(templatefile(var.definition.file, {
+  template_parameters = merge(coalesce(try(var.definition.template_parameters, null), {}), {
     aws_region     = data.aws_region.current.name
     aws_account_id = data.aws_caller_identity.current.account_id
-  })) : data.external.definition[0].result
-  lambda_arns = jsondecode(local.raw_definition.lambda_arns)
-  definition  = jsondecode(local.raw_definition.definition)
+  })
+  file_definition = endswith(var.definition.file, ".json") ? jsondecode(templatefile(var.definition.file, local.template_parameters)) : null
+  raw_definition  = endswith(var.definition.file, ".json") ? local.file_definition : data.external.definition[0].result
+  lambda_arns     = jsondecode(local.raw_definition.lambda_arns)
+  definition      = jsondecode(local.raw_definition.definition)
 }
 
 resource "aws_sfn_state_machine" "this" {

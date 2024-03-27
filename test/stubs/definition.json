@@ -1,0 +1,4 @@
+{
+  "definition": "{\"foo\":\"${bar}\", \"region\":\"${aws_region}\"}",
+  "lambda_arns": "[]"
+}
