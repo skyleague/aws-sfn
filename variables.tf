@@ -1,18 +1,24 @@
 variable "definition" {
   description = "JSON definition of the Stepfunction"
   type = object({
-    file   = string
-    export = optional(string)
+    file                = string
+    export              = optional(string)
+    template_parameters = optional(map(string), {})
   })
 
   validation {
     condition     = endswith(var.definition.file, ".json") || endswith(var.definition.file, ".ts") || endswith(var.definition.file, ".js")
-    error_message = "Invalid definition type; supported types are: ts, json"
+    error_message = "Invalid definition type; supported types are: ts, js, json"
   }
 
   validation {
     condition     = endswith(var.definition.file, ".json") || var.definition.export != null
     error_message = "Name for 'export' is required when including a js or ts definition."
+  }
+
+  validation {
+    condition     = var.definition.template_parameters == null || endswith(var.definition.file, ".json")
+    error_message = "Template parameters are only supported for json definitions."
   }
 }
 variable "name" {
